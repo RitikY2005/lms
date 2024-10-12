@@ -5,6 +5,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import courseRoutes from './routes/course.routes.js';
 import cookieParser from "cookie-parser";
+import paymentRoutes from './routes/payment.routes.js';
 
 
 const app=express();
@@ -32,6 +33,7 @@ app.get('/ping',(req,res)=>{
 // all major routes 
 app.use('/api/v1/user',userRoutes);
 app.use('/api/v1/courses', courseRoutes);
+app.use('/api/v1/payments',paymentRoutes);
 
 app.all("*",(req,res)=>{
 	res.status(404).send("OOOPS!! Page not found ");

@@ -116,74 +116,73 @@ export const getLecturesByCourseId = asyncHandler(async (req, res, next) => {
  * @ROUTE @POST {{URL}}/api/v1/courses/:id
  * @ACCESS Private (Admin Only)
  */
-export const addLectureToCourseById = asyncHandler(async (req, res, next) => {
-  const { title, description } = req.body;
-  const { id } = req.params;
 
-  let lectureData = {};
+export const addLectureToCourseById= asyncHandler(async (req,res,next)=>{
+   const {title,description} = req.body;
+   const {id} = req.params;
 
-  if (!title || !description) {
-    return next(new AppError('Title and Description are required', 400));
-  }
+   let courseData={};
 
-  const course = await Course.findById(id);
+   if(!title || !description) {
+    return next(new AppError('title and description is required !',400));
+   }   
 
-  if (!course) {
-    return next(new AppError('Invalid course id or course not found.', 400));
-  }
+   const course=await Course.findById(id);
 
-  // Run only if user sends a file
-  if (req.file) {
-    try {
-      const result = await cloudinary.v2.uploader.upload(req.file.path, {
-        folder: 'lms', // Save files in a folder named lms
-        chunk_size: 50000000, // 50 mb size
-        resource_type: 'video',
-      });
+   if(!course){
+    return next(new AppError('Invalid id or Course does not exist!',404));
+   }
 
-      // If success
-      if (result) {
-        // Set the public_id and secure_url in array
-        lectureData.public_id = result.public_id;
-        lectureData.secure_url = result.secure_url;
+   
+
+   // if file is present ,upload it 
+
+   if(req.file){
+      try{
+         const result = await cloudinary.v2.uploader.upload(req.file.path,{
+          folder:'lms',
+          chunk_size:50000000,
+          resource_type:'video'
+         });
+
+        if(result){
+          courseData.lecture.public_id=result.public_id;
+          courseData.lecture.secure_url=result.secure_url;
+
+          // remove the video from local storage 
+
+          fs.rm(`uploads/${req.file.filename}`);
+
+        }
+
+      }catch(e){
+           
+           // empty uploads folder without deleting the uploads folder 
+
+           for(const file of await fs.readdir('uploads/')){
+               fs.unlink(path.join('uploads/',file));
+           }
+
+           return next(new AppError('Could not upload the video ',500));
       }
+   }
 
-      // After successful upload remove the file from local storage
-      fs.rm(`uploads/${req.file.filename}`);
-    } catch (error) {
-      // Empty the uploads directory without deleting the uploads directory
-      for (const file of await fs.readdir('uploads/')) {
-        await fs.unlink(path.join('uploads/', file));
-      }
+   courseData.title=title;
+   courseData.description=description;
+   course.lectures.push(courseData);
 
-      // Send the error message
-      return next(
-        new AppError(
-          JSON.stringify(error) || 'File not uploaded, please try again',
-          400
-        )
-      );
-    }
-  }
+   course.numberOfLectures= course.lectures.length;
+  
+   await course.save();
 
-  course.lectures.push({
-    title,
-    description,
-    lecture: lectureData,
-  });
+   res.status(200).json({
+    success:true,
+    message:'Lecture added successfully!',
+   })
 
-  course.numberOfLectures = course.lectures.length;
 
-  // Save the course object
-  await course.save();
 
-  res.status(200).json({
-    success: true,
-    message: 'Course lecture added successfully',
-    course,
-  });
 });
-
 /**
  * @Remove_LECTURE
  * @ROUTE @DELETE {{URL}}/api/v1/courses/:courseId/lectures/:lectureId
