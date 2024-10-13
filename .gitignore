@@ -34,4 +34,5 @@ client/.env.production.local
 server/.env
 
 postman.html
+razorpay.html
 
