@@ -1,13 +1,16 @@
-
-import './App.css'
+import {Routes ,Route} from 'react-router-dom';
+import './App.css';
+import Homepage from './Pages/Homepage.jsx';
 
 function App() {
 
 
   return (
-      <>
-        <p className="bg-yellow-500">lms</p>
-      </>
+  	
+     <Routes>
+         <Route path="/" element={<Homepage/>}/>
+     </Routes>
+    
   )
 }
 
