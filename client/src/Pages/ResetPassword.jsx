@@ -4,19 +4,20 @@ import toast from "react-hot-toast";
 import { useDispatch  } from "react-redux";
 import { isEmailValid, isPasswordValid } from "../Helpers/regExValidator.js";
 import { useParams ,useNavigate} from "react-router-dom";
+import { resetPassword } from "../Redux/Slices/user.slice.js";
 
 function ResetPassword(){
    const dispatch=useDispatch();
    const navigate= useNavigate();
    const [userPassword,setUserPassword]=useState('');
-   const resetToken= useParams();
+   const {resetToken}= useParams();
    
 
    function handleInputChange(e){
      setUserPassword(e.target.value);
    }
 
-   function onFormSubmit(e){
+   async function onFormSubmit(e){
       e.preventDefault();
 
       if(!userPassword){
@@ -25,20 +26,22 @@ function ResetPassword(){
       }
 
       if(!isPasswordValid(userPassword)){
-        toast.error('Password must contain One uppercase , lowercase and one number and must be of 6 characters long !');
+        toast.error('Password must contain atleast one character , symbol , number and must of atleast 6 character long');
          return ;
       }
 
       const data={
-        password:UserPassword,
+        password:userPassword,
         resetToken:resetToken
       }
 
-      const response=dispatch(resetPassword(data));
-
-      if(response.success){
+      const response=await dispatch(resetPassword(data));
+      console.log("t1",response);
+      if(response?.payload?.success){
          navigate('/login');
       }
+
+      setUserPassword('');
 
 
 

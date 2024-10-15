@@ -75,7 +75,7 @@ function Signin(){
         // check if password if correct 
 
         if(!isPasswordValid(userInput.password)){
-            toast.error('Password must contain 6-16 character  , and should contain 1 number and special character!');
+            toast.error('Password must contain atleast one character , symbol , number and must of atleast 6 character long');
             return ;
         }
 

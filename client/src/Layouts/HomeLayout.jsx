@@ -14,9 +14,8 @@ function HomeLayout({ children }) {
 
   const isLoggedIn= useSelector((state)=>state?.user?.isLoggedIn);
 
-   function handleLogout(){
-    console.log('logginf out');
-    const res= dispatch(logout());
+   async function handleLogout(){
+    const res= await dispatch(logout());
     if(res?.payload?.success) hideSidebar();
   }
 

@@ -264,6 +264,8 @@ export const resetPassword = asyncHandler(async (req, res, next) => {
   // Extracting resetToken from req.params object
   const { resetToken } = req.params;
 
+  console.log(JSON.stringify(resetToken));
+
   // Extracting password from req.body object
   const { password } = req.body;
 

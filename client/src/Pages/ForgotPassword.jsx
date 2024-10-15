@@ -3,11 +3,10 @@ import HomeLayout from "../Layouts/HomeLayout.jsx";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { isEmailValid } from "../Helpers/regExValidator.js";
-import { useNavigate } from "react-router-dom";
+import { forgotPassword } from "../Redux/Slices/user.slice.js";
 
 function ForgotPassword(){
    const dispatch=useDispatch();
-   const navigate=useNavigate()
    const [userEmail,setUserEmail]=useState('');
    
 
@@ -15,7 +14,7 @@ function ForgotPassword(){
      setUserEmail(e.target.value);
    }
 
-   function onFormSubmit(e){
+   async function onFormSubmit(e){
       e.preventDefault();
 
       if(!userEmail){
@@ -27,12 +26,15 @@ function ForgotPassword(){
          toast.error('Invalid email');
          return ;
       }
-
-      const response=dispatch(forgotPassword(userEmail));
-
-      if(response.success){
-         navigate('/reset-password');
+      const data={
+        email:userEmail
       }
+      const response=await dispatch(forgotPassword(data));
+       console.log("t2",response);
+     if(response?.payload?.success)  toast.success('check your email for reset link');
+
+     setUserEmail("");
+    
 
       
    }

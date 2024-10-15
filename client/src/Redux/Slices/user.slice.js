@@ -14,7 +14,7 @@ export const createAccount= createAsyncThunk('/user/signin',async (data,{rejectW
 	 await toast.promise(res,{
 		loading:"wait ! authentication in progress..",
 		success:"Account created successfully",
-		error:(error)=>toast.error(error?.response?.data?.message)
+		error:(error)=>error?.response?.data?.message
 	  })
 	  return (await res).data;
 	}catch(e){
@@ -28,7 +28,7 @@ export const login= createAsyncThunk("/user/login",async (data,{rejectWithValue}
 		await toast.promise(res,{
 			loading:"wait ! verifying details..",
 			success:"user logged in successfully",
-			error:(error)=>toast.error(error?.response?.data?.message)
+			error:(error)=>(error?.response?.data?.message)
 		  });
 
 		 return (await res).data; 
@@ -39,19 +39,53 @@ export const login= createAsyncThunk("/user/login",async (data,{rejectWithValue}
 
 export const logout= createAsyncThunk("/user/logout",async (data,{rejectWithValue})=>{
       try{
-		   console.log("flow1")
+		 
            const res=axiosInstance.get("/user/logout");
-		   console.log("flow2")
+		   
 		   await toast.promise(res,{
 			loading:"initiating logout!",
 			success:"user logged out successfully",
-			error:(error)=>toast.error(error?.response?.data?.message)
+			error:(error)=>error?.response?.data?.message
 		  });
 		 return (await res).data ;
 	  }catch(e){
 		return rejectWithValue(e?.response?.data);
 	  }
 });
+
+export const forgotPassword = createAsyncThunk('/user/forgot-password',async (data,{rejectWithValue})=>{
+	try{
+        const res= axiosInstance.post("/user/reset",data);
+		await toast.promise(res,{
+			loading:"sending you email...",
+			success:"email sent successfully",
+			error:(error)=>error?.response?.data?.message
+		});
+
+		return (await res).data;
+	}catch(e){
+		return rejectWithValue(e?.response?.data);
+	}
+});
+
+export const resetPassword= createAsyncThunk("/user/reset-password",async (data,{rejectWithValue})=>{
+	try{
+		const resetToken = data?.resetToken;
+        const res= axiosInstance.post(`/user/reset/${resetToken}`,data);
+		await toast.promise(res,{
+			loading:"resetting password...",
+			success:"password reset successfully",
+			error:(error)=>error?.response?.data?.message
+		});
+
+		return (await res).data;
+	} catch(e){
+		 return rejectWithValue(e?.response?.data);
+	}
+});
+
+
+
 
 
 
