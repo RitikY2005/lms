@@ -7,9 +7,9 @@ function Footer(){
 	const currentYear= date.getFullYear();
 
   return (
-  	<footer className="width-full flex flex-col sm:flex-row justify-between items-center h-[8vh] relative left-0 bottom-0 px-12 bg-gray-700 ">
-       <section className="flex justify-center align-center">
-         <p className="text-white text-lg ">
+  	<footer className="w-full flex flex-col sm:flex-row justify-center sm:justify-between space-y-3 items-center h-[15vh] sm:h-[8vh] relative left-0 bottom-0 px-24 bg-gray-700 ">
+       <section className="flex justify-center align-center sm:w-auto w-full">
+         <p className="text-white  sm:text-lg text-center ">
          	Learning Pvt.ltd {currentYear} &copy; all rights reserved .
          </p>
        </section>

@@ -1,7 +1,7 @@
 import { AiOutlineMenu, AiFillCloseCircle } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import Footer from "../Components/Footer.jsx";
+import {useSelector} from 'react-redux';
 
 function Homepage({ children }) {
   function hideSidebar() {
@@ -9,13 +9,15 @@ function Homepage({ children }) {
     drawer.checked = !drawer.checked;
   }
 
+  const isLoggedIn= useSelector((state)=>state?.user?.isLoggedIn);
+
   return (
     <>
       <div className="drawer">
         <input id="my-drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content p-1">
           {/* Page content here */}
-
+       
           {children}
 
           <Footer />
@@ -32,7 +34,7 @@ function Homepage({ children }) {
             aria-label="close sidebar"
             className="drawer-overlay"
           ></label>
-          <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4 relative">
+          <ul className="menu bg-base-200 text-base-content min-h-screen w-80 p-4 relative">
             {/* Sidebar content here */}
 
             <li className="absolute w-fit right-2 z-50">
@@ -42,21 +44,40 @@ function Homepage({ children }) {
             </li>
 
             <li>
-              <Link path="/"> Home </Link>
+              <Link to="/"> Home </Link>
             </li>
 
             <li>
-              <Link path="/courses"> All Courses </Link>
+              <Link to="/courses"> All Courses </Link>
             </li>
 
             <li>
-              <Link path="/contact-us"> Contact Us </Link>
+              <Link to="/contact-us"> Contact Us </Link>
             </li>
 
             <li>
-              <Link path="/about"> About Us </Link>
+              <Link to="/about"> About Us </Link>
             </li>
+            <li className="absolute bottom-4">
+              {!isLoggedIn && (
+                            <div className=" w-full flex justify-center items-center  space-x-4">
+                            <button className="btn btn-sm btn-secondary  px-8 py-2 text-white font-semibold rounded-md"><Link to="/login">Login</Link></button>
+                            <button className="btn btn-sm btn-primary  px-8 py-2 text-white font-semibold rounded-md"><Link to="/signin">signin</Link></button>
+                          </div>
+              )}
+
+              {
+                isLoggedIn && (
+                  <div className=" w-full flex justify-center items-center  space-x-4">
+                  <button className="btn btn-sm btn-secondary  px-8 py-2 text-white font-semibold rounded-md"><Link to="/profile">Profile</Link></button>
+                  <button className="btn btn-sm btn-primary  px-8 py-2 text-white font-semibold rounded-md"><Link to="/logout">logout</Link></button>
+                </div>
+                )
+              }
+            </li>
+
           </ul>
+
         </div>
       </div>
     </>
