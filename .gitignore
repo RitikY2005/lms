@@ -33,7 +33,8 @@ client/.env.production.local
 # Ignore environment variables
 server/.env
 
+
+#just for purpose of testing ... not realted to code at all 
 postman.html
 razorpay.html
 
-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
