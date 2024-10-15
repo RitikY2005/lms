@@ -76,6 +76,13 @@ export const registerUser = asyncHandler(async (req, res, next) => {
         fs.rm(`uploads/${req.file.filename}`);
       }
     } catch (error) {
+      
+                 // empty uploads folder without deleting the uploads folder 
+
+                 for(const file of await fs.readdir('uploads/')){
+                  fs.unlink(path.join('uploads/',file));
+              }
+
       return next(
         new AppError(error || 'File not uploaded, please try again', 400)
       );
