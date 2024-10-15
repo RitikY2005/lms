@@ -5,6 +5,7 @@ import Signin from './Pages/Signin.jsx';
 import Login from './Pages/Login.jsx';
 import ForgotPassword from './Pages/ForgotPassword.jsx';
 import ResetPassword from './Pages/ResetPassword.jsx';
+import NotFoundpage from './Pages/NotFoundpage.jsx';
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
          <Route path='/login' element={<Login/>}/>
          <Route path='/forgot-password' element={<ForgotPassword/>}/>
          <Route path='/reset-password/:resetToken' element={<ResetPassword/>}/>
+         <Route path='*' element={<NotFoundpage/>}/>
      </Routes>
      </>
     
