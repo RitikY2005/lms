@@ -1,15 +1,24 @@
 import { AiOutlineMenu, AiFillCloseCircle } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import Footer from "../Components/Footer.jsx";
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import { logout } from "../Redux/Slices/user.slice.js";
 
 function HomeLayout({ children }) {
+  const dispatch= useDispatch();
+  
   function hideSidebar() {
     const drawer = document.getElementById("my-drawer");
     drawer.checked = !drawer.checked;
   }
 
   const isLoggedIn= useSelector((state)=>state?.user?.isLoggedIn);
+
+   function handleLogout(){
+    console.log('logginf out');
+    const res= dispatch(logout());
+    if(res?.payload?.success) hideSidebar();
+  }
 
   return (
     <>
@@ -58,7 +67,7 @@ function HomeLayout({ children }) {
             <li>
               <Link to="/about"> About Us </Link>
             </li>
-            <li className="absolute bottom-4">
+            <div className="absolute bottom-4">
               {!isLoggedIn && (
                             <div className=" w-full flex justify-center items-center  space-x-4">
                             <button className="btn btn-sm btn-secondary  px-8 py-2 text-white font-semibold rounded-md"><Link to="/login">Login</Link></button>
@@ -70,11 +79,11 @@ function HomeLayout({ children }) {
                 isLoggedIn && (
                   <div className=" w-full flex justify-center items-center  space-x-4">
                   <button className="btn btn-sm btn-secondary  px-8 py-2 text-white font-semibold rounded-md"><Link to="/profile">Profile</Link></button>
-                  <button className="btn btn-sm btn-primary  px-8 py-2 text-white font-semibold rounded-md"><Link to="/logout">logout</Link></button>
+                  <button onClick={handleLogout} className="btn btn-sm btn-primary  px-8 py-2 text-white font-semibold rounded-md">logout</button>
                 </div>
                 )
               }
-            </li>
+            </div>
 
           </ul>
 

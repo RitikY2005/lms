@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import toast from 'react-hot-toast'; 
 import { isEmailValid, isPasswordValid } from "../Helpers/regExValidator";
 import { useDispatch } from "react-redux";
+import { login } from "../Redux/Slices/user.slice.js";
 
 function Login(){
     
@@ -41,12 +42,7 @@ function Login(){
             return ;
         } 
 
-        // check if password if correct 
-
-        if(!isPasswordValid(userInput.password)){
-            toast.error('Password must contain One uppercase , lowercase and one number and must be of 6 characters long !');
-            return ;
-        }
+     
 
         const data={
             email:userInput.email,
@@ -56,18 +52,16 @@ function Login(){
        
         const response= await dispatch(login(data));
 
-        if(response.success){
-            navigate('/profile');
-        }
+        if(response?.payload?.success) navigate("/profile");
 
-
-        
+        setUserInput({
+            email:"",
+            password:""
+        });
 
     }
 
-    useEffect(()=>{
-        console.log(userInput)
-    },[userInput]);
+
 
    return (
       
@@ -83,12 +77,16 @@ function Login(){
 
                         <div className="space-y-1">
                             <label htmlFor="email" className="block">Email:</label>
-                            <input type="email" id="email" name="email" placeholder="enter your email address" onChange={handleInputChange} className="w-full py-2 px-3 rounded outline-none"/>
+                            <input type="email" id="email" value={userInput.email} name="email" placeholder="enter your email address" onChange={handleInputChange} className="w-full py-2 px-3 rounded outline-none"/>
                         </div>
 
                         <div className="space-y-1">
                             <label htmlFor="password" className="block">Password:</label>
-                            <input type="password" id="password" name="password" placeholder="enter your password" onChange={handleInputChange} className="w-full py-2 px-3 rounded outline-none"/>
+                            <input type="password" id="password" value={userInput.password} name="password" placeholder="enter your password" onChange={handleInputChange} className="w-full py-2 px-3 rounded outline-none"/>
+                        </div>
+
+                        <div>
+                            <Link to="/forgot-password" className="link text-sky-600 visited:text-purple-600">Forgot password ?</Link>
                         </div>
 
                         <button type="submit" className="w-full text-center py-1 bg-yellow-500 text-white text-md font-bold rounded-sm" >
@@ -96,7 +94,7 @@ function Login(){
                         </button>
 
                         <div className="w-full text-sm text-left ">
-                            Don't have an account? <Link to="/signin" className="link text-primary visited:text-purple-600">Create an account</Link>
+                            Don't have an account? <Link to="/signin" className="link text-sky-600 visited:text-purple-600">Create an account</Link>
                         </div>
                       </form>
                 </div>

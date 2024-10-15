@@ -5,6 +5,7 @@ import {BsPersonCircle} from 'react-icons/bs';
 import toast from 'react-hot-toast'; 
 import { isEmailValid, isPasswordValid } from "../Helpers/regExValidator";
 import { useDispatch } from "react-redux";
+import {createAccount} from '../Redux/Slices/user.slice.js';
 
 function Signin(){
     
@@ -74,7 +75,7 @@ function Signin(){
         // check if password if correct 
 
         if(!isPasswordValid(userInput.password)){
-            toast.error('Password must contain One uppercase , lowercase and one number and must be of 6 characters long !');
+            toast.error('Password must contain 6-16 character  , and should contain 1 number and special character!');
             return ;
         }
 
@@ -84,22 +85,22 @@ function Signin(){
         formData.append('password',userInput.password);
         formData.append('avatar',userInput.avatar);
         
-        console.log(formData);
-       
-        const response= await dispatch(signin(formData));
-
-        if(response.success){
-            navigate('/profile');
-        }
-
-
         
+       
+        const response= await dispatch(createAccount(formData));
+        
+        if(response?.payload?.success) navigate('/profile');
+
+        setUserInput({
+            fullName:'',
+            email:'',
+            password:'',
+            avatar:null,
+            imagePreview:''
+        }); 
 
     }
 
-    useEffect(()=>{
-        console.log(userInput)
-    },[userInput]);
 
    return (
       
@@ -124,17 +125,17 @@ function Signin(){
 
                         <div className="space-y-1">
                             <label htmlFor="fullName" className="block">Name:</label>
-                            <input type="text" id="fullName" name="fullName" placeholder="enter your full name" onChange={handleInputChange} className="w-full py-2 px-3 rounded outline-none"/>
+                            <input type="text" id="fullName" value={userInput.fullName} name="fullName" placeholder="enter your full name" onChange={handleInputChange} className="w-full py-2 px-3 rounded outline-none"/>
                         </div>
 
                         <div className="space-y-1">
                             <label htmlFor="email" className="block">Email:</label>
-                            <input type="email" id="email" name="email" placeholder="enter your email address" onChange={handleInputChange} className="w-full py-2 px-3 rounded outline-none"/>
+                            <input type="email" id="email" value={userInput.email} name="email" placeholder="enter your email address" onChange={handleInputChange} className="w-full py-2 px-3 rounded outline-none"/>
                         </div>
 
                         <div className="space-y-1">
                             <label htmlFor="password" className="block">Password:</label>
-                            <input type="password" id="password" name="password" placeholder="enter your password" onChange={handleInputChange} className="w-full py-2 px-3 rounded outline-none"/>
+                            <input type="password" id="password" value={userInput.password} name="password" placeholder="enter your password" onChange={handleInputChange} className="w-full py-2 px-3 rounded outline-none"/>
                         </div>
 
                         <button type="submit" className="w-full text-center py-1 bg-yellow-500 text-white text-md font-bold rounded-sm" >
