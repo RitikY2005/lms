@@ -1,8 +1,14 @@
 import { FaFileUpload } from "react-icons/fa";
 import HomeLayout from "../../Layouts/HomeLayout";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { createNewCourse } from "../../Redux/Slices/course.slice";
 
 function CreateCourse() {
+  const dispatch= useDispatch();
+  const navigate= useNavigate();
   const [userInput, setUserInput] = useState({
     title: "",
     description: "",
@@ -39,6 +45,49 @@ function CreateCourse() {
       ...userInput,
       [name]: value
     });
+  }
+
+  async function handleSubmit(){
+      if(!userInput.title || !userInput.description || !userInput.category || !userInput.createdBy || !userInput.thumbnail){
+          toast.error("all fields are required!");
+          return ;
+      }
+
+      if(userInput.title.length<5 && userInput.title.length>50){
+        toast.error('title should be  5-50 characters long');
+        return ;
+      }
+
+      if(userInput.description.length<20){
+         toast.error("description should be atleast 20 characters long!");
+         return ;
+      }
+
+
+
+      const data= new FormData();
+
+      data.append("title",userInput.title);
+      data.append("description",userInput.description);
+      data.append("createdBy",userInput.createdBy);
+      data.append("category",userInput.category);
+      data.append("thumbnail",userInput.thumbnail);
+
+      const response= await dispatch(createNewCourse(data));
+
+      if(response?.payload?.success){
+        navigate("/courses");
+      }
+
+      setUserInput({
+        title: "",
+        description: "",
+        createdBy: "",
+        category: "",
+        thumbnail: null,
+        previewThumbnail: "",
+      });
+
   }
 
   return (
@@ -100,7 +149,7 @@ function CreateCourse() {
                 <textarea  id="description" name="description" placeholder="enter description of this course.." value={userInput.description} onChange={handleInputChange} className="h-72 overflow-y-auto resize-none outline-none px-2 py-2 rounded-sm w-full"></textarea>
             </div>
             <div className="text-center">
-                <button className="w-full bg-yellow-500 hover:bg-yellow-600 text-md font-bold transition-all duration-300 ease-in-out cursor-pointer py-2 rounded-md">Create course</button>
+                <button onClick={handleSubmit} className="w-full bg-yellow-500 hover:bg-yellow-600 text-md font-bold transition-all duration-300 ease-in-out cursor-pointer py-2 rounded-md">Create course</button>
             </div>
           </div>
         </div>

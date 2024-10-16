@@ -89,7 +89,7 @@ function Signin(){
        
         const response= await dispatch(createAccount(formData));
         
-        if(response?.payload?.success) navigate('/profile');
+        if(response?.payload?.success) navigate('/user/profile');
 
         setUserInput({
             fullName:'',

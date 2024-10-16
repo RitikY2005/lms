@@ -52,7 +52,7 @@ function Login(){
        
         const response= await dispatch(login(data));
 
-        if(response?.payload?.success) navigate("/profile");
+        if(response?.payload?.success) navigate("/user/profile");
 
         setUserInput({
             email:"",
