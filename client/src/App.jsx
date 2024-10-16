@@ -7,6 +7,7 @@ import ForgotPassword from './Pages/ForgotPassword.jsx';
 import ResetPassword from './Pages/ResetPassword.jsx';
 import NotFoundpage from './Pages/NotFoundpage.jsx';
 import About from './Pages/About.jsx';
+import Courses from './Pages/Courses/Courses.jsx';
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
          <Route path='/reset-password/:resetToken' element={<ResetPassword/>}/>
          <Route path='*' element={<NotFoundpage/>}/>
          <Route path="/about" element={<About/>}/>
+         <Route path='/courses' element={<Courses/>}/>
      </Routes>
      </>
     
