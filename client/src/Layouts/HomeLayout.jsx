@@ -12,7 +12,7 @@ function HomeLayout({ children }) {
     drawer.checked = !drawer.checked;
   }
 
-  const isLoggedIn= useSelector((state)=>state?.user?.isLoggedIn);
+  const {isLoggedIn,role}= useSelector((state)=>state?.user);
 
    async function handleLogout(){
     const res= await dispatch(logout());
@@ -58,6 +58,16 @@ function HomeLayout({ children }) {
             <li>
               <Link to="/courses"> All Courses </Link>
             </li>
+
+            {
+              role==="ADMIN" && (
+                <li>
+                  <Link to="/courses/create"> Create Course </Link>
+                </li>
+              )
+            }
+
+
 
             <li>
               <Link to="/contact-us"> Contact Us </Link>
