@@ -8,6 +8,7 @@ import ResetPassword from './Pages/ResetPassword.jsx';
 import NotFoundpage from './Pages/NotFoundpage.jsx';
 import About from './Pages/About.jsx';
 import Courses from './Pages/Courses/Courses.jsx';
+import ContactUs from './Pages/ContactUs.jsx';
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
          <Route path='*' element={<NotFoundpage/>}/>
          <Route path="/about" element={<About/>}/>
          <Route path='/courses' element={<Courses/>}/>
+         <Route path='/contact-us' element={<ContactUs/>}/>
      </Routes>
      </>
     
