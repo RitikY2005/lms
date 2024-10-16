@@ -12,10 +12,12 @@ function NotFoundpage(){
                 <p className="text-sm bg-black text-white rotate-12 absolute rounded px-2">
                     Page not Found
                 </p>
-
+                
+                <Link to="/">
                 <button className="btn btn-neutral btn-md rounded-md text-white">
-                    <Link to="/">Go to home</Link>
+                    Go to Home
                     </button>
+                    </Link>
             </div>
         </div>
     )

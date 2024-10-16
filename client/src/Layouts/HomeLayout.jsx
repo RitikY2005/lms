@@ -66,18 +66,18 @@ function HomeLayout({ children }) {
             <li>
               <Link to="/about"> About Us </Link>
             </li>
-            <div className="absolute bottom-4">
+            <div className="absolute bottom-4 w-[90%]">
               {!isLoggedIn && (
                             <div className=" w-full flex justify-center items-center  space-x-4">
-                            <button className="btn btn-sm btn-secondary  px-8 py-2 text-white font-semibold rounded-md"><Link to="/login">Login</Link></button>
-                            <button className="btn btn-sm btn-primary  px-8 py-2 text-white font-semibold rounded-md"><Link to="/signin">signin</Link></button>
+                            <Link to="/login"><button className="btn btn-sm btn-secondary  px-8 py-2 w-full text-white font-semibold rounded-md">Login</button></Link>
+                            <Link to="/signin"> <button className="btn btn-sm btn-primary  px-8 py-2 w-full text-white font-semibold rounded-md">signin</button></Link>
                           </div>
               )}
 
               {
                 isLoggedIn && (
                   <div className=" w-full flex justify-center items-center  space-x-4">
-                  <button className="btn btn-sm btn-secondary  px-8 py-2 text-white font-semibold rounded-md"><Link to="/profile">Profile</Link></button>
+                  <Link to="/profile"><button className="btn btn-sm btn-secondary  px-8 py-2 text-white font-semibold rounded-md">Profile</button></Link>
                   <button onClick={handleLogout} className="btn btn-sm btn-primary  px-8 py-2 text-white font-semibold rounded-md">logout</button>
                 </div>
                 )

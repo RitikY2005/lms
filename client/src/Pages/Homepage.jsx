@@ -16,8 +16,8 @@ function Homepage() {
                      </p>
 
                      <div className='text-center sm:text-left space-x-4'>
-                        <button className='btn bg-yellow-500 rounded-md text-white text-sm font-bold hover:bg-yellow-600 transition-all duration-300 ease-in-out'><Link to="/courses">Explore Courses</Link></button>
-                        <button className='btn border border-yellow-500 rounded-md text-white text-sm font-bold hover:bg-yellow-600 transition-all duration-300 ease-in-out'><Link to="/contact-us">Contact Us</Link></button>
+                     <Link to="/courses"> <button className='btn bg-yellow-500 rounded-md text-white text-sm font-bold hover:bg-yellow-600 transition-all duration-300 ease-in-out'>Explore Courses</button></Link>
+                     <Link to="/contact-us"><button className='btn border border-yellow-500 rounded-md text-white text-sm font-bold hover:bg-yellow-600 transition-all duration-300 ease-in-out'>Contact Us</button></Link>
                         
                      </div>
 
