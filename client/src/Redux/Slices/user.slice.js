@@ -84,6 +84,20 @@ export const resetPassword= createAsyncThunk("/user/reset-password",async (data,
 	}
 });
 
+export const editUserProfile= createAsyncThunk("/user/editProfile",async (data,{rejectWithValue})=>{
+     try{
+        const res= axiosInstance.put(`/user/update${data[0]}`,data[1]);
+		await toast.promise(res,{
+			loading:"wait!editing profile...",
+			success:"Profile updated successfully!",
+			error:(error)=>error?.response?.data?.message
+		});
+		return (await res).data;
+	 } catch(e){
+            return rejectWithValue(e?.response?.data);
+	 }
+});
+
 
 
 
